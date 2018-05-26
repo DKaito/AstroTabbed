@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="longitude"
+        android:title="@string/longitude"
+        android:summary="@string/longitude_summ"
+        android:inputType="numberDecimal"
+        android:defaultValue="0" />
+    <EditTextPreference
+        android:key="latitude"
+        android:title="@string/latitude"
+        android:summary="@string/latitude_summ"
+        android:inputType="numberDecimal"
+        android:defaultValue="0" />
+    <EditTextPreference
+        android:key="refreshRate"
+        android:title="@string/refreshRate"
+        android:summary="@string/refreshRate_summ"
+        android:inputType="number"
+        android:defaultValue="30" />
+</PreferenceScreen>

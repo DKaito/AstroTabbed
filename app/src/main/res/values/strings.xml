@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">AstroInfo</string>
+    <string name="tab_text_1">Sun Info</string>
+    <string name="tab_text_2">Moon Info</string>
+    <string name="wschod">Wschód</string>
+    <string name="czas">Czas</string>
+    <string name="azymut">Azymut</string>
+    <string name="zachod">Zachód</string>
+    <string name="daybreakDawn">Świt i Zmierzch</string>
+    <string name="localisation">Lokalizacja</string>
+    <string name="localisation_summ">Ustawienia Szerokości i Długości Geograficznej</string>
+    <string name="longitude">Długość Geograficzna</string>
+    <string name="longitude_summ">Długość geograficzna (Longitude) bieżącej pozycji, ujemna dla Zachodu.</string>
+    <string name="latitude">Szerokość Geograficzna</string>
+    <string name="latitude_summ">Szerokość geograficzna (Latitude) bieżącej pozycji, ujemna dla Południa.</string>
+    <string name="refreshRate">Częstotliwość Odświeżania</string>
+    <string name="refreshRate_summ">Interwał odświeżania informacji w minutach.</string>
+    <string name="timeToSunset">Czas do zachodu</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="dzienMiesSyno">Dzień Miesiąca Synodycznego</string>
+    <string name="newMoon">Nów</string>
+    <string name="fullMoon">Pełnia</string>
+    <string name="moonPhase">Faza Księżyca</string>
+</resources>
