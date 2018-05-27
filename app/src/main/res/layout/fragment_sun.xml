@@ -33,7 +33,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/wschod"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -42,7 +43,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/zachod"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -53,7 +55,8 @@
             android:layout_weight="0"
             android:gravity="center"
             android:text="@string/czas"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,18 +69,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:freezesText="false"
                 android:gravity="center"
                 android:text="czas"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/timeSunset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:freezesText="false"
                 android:gravity="center"
                 android:text="czas"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -87,15 +94,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:gravity="center"
-            android:text="@string/timeToSunset" />
+            android:paddingTop="10dp"
+            android:text="@string/timeToSunset"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/timeToSunset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:freezesText="false"
             android:gravity="center"
-            android:text="timeToSunset" />
+            android:text="timeToSunset"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/azymuthLabelSunrise"
@@ -103,8 +114,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:gravity="center"
+            android:paddingTop="10dp"
             android:text="@string/azymut"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,7 +132,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="azymut"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/azymuthSunset"
@@ -128,7 +142,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="azymut"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <TextView
@@ -138,7 +153,9 @@
             android:layout_gravity="center"
             android:layout_weight="0"
             android:gravity="center"
-            android:text="@string/daybreakDawn" />
+            android:paddingTop="10dp"
+            android:text="@string/daybreakDawn"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,7 +169,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="swit" />
+                android:text="swit"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/timeDawn"
@@ -160,7 +178,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="zmierzch" />
+                android:text="zmierzch"
+                android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

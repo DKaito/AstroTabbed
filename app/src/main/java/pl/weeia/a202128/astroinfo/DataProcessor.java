@@ -2,14 +2,9 @@ package pl.weeia.a202128.astroinfo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.util.Log;
+
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
 import java.text.DateFormat;
@@ -21,83 +16,25 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class SunFragment extends Fragment {
+public class DataProcessor {
 
-
-    private OnFragmentInteractionListener mListener;
     private AstroDateTime astroDateTime = new AstroDateTime();
     private AstroCalculator astroCalculator;
     private Calendar calendar = Calendar.getInstance();
     private double latitude, longitude;
+    private SharedPreferences sharedPref;
     private static DecimalFormat df2 = new DecimalFormat(".##");
     private static DateFormat dateFormat = new SimpleDateFormat("kk:mm:ss", Locale.GERMANY);
-    private TextView timeSunrise, azimuthSunrise, timeSunset, azimuthSunset, timeDaybreak, timeDawn, timeToSunset;
 
-    public SunFragment() {
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_sun, container, false);
-
-        timeSunrise = view.findViewById(R.id.timeSunrise);
-        azimuthSunrise = view.findViewById(R.id.azymuthSunrise);
-        timeSunset = view.findViewById(R.id.timeSunset);
-        azimuthSunset = view.findViewById(R.id.azymuthSunset);
-        timeDaybreak = view.findViewById(R.id.timeDaybreak);
-        timeDawn = view.findViewById(R.id.timeDawn);
-        timeToSunset = view.findViewById(R.id.timeToSunset);
-        refreshCalculations(getActivity());
-
-        return view;
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public DataProcessor(){
 
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public static DataProcessor getDataProcessor(){
+        return new DataProcessor();
     }
 
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
-
-
-    public void setFields(String sunrise, String azimuthRise, String sunset, String azimuthSet, String daybreak, String dawn, String timeToSunset){
-
-        this.timeSunrise.setText(sunrise);
-        this.timeSunset.setText(sunset);
-        this.azimuthSunrise.setText(azimuthRise);
-        this.azimuthSunset.setText(azimuthSet);
-        this.timeDaybreak.setText(daybreak);
-        this.timeDawn.setText(dawn);
-        this.timeToSunset.setText(timeToSunset);
-    }
 
     protected void Calculate(){
 
@@ -111,11 +48,15 @@ public class SunFragment extends Fragment {
         astroDateTime.setDaylightSaving(false);
         astroCalculator = new AstroCalculator(astroDateTime, new AstroCalculator.Location(latitude,longitude));
 
+        Log.d("CALCULATE","calculate");
     }
 
-    public void refreshCalculations(Context context){
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+    public void refreshCalculations(Context context, SunFragment sunFragment, String time){
+
+        Log.d("REFRESH","refresh");
+
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
         if(!((sharedPref.getString("latitude", null)) == null && (sharedPref.getString("longitude", null)) == null)) {
             latitude = Double.parseDouble(sharedPref.getString("latitude", null));
@@ -141,12 +82,9 @@ public class SunFragment extends Fragment {
         String dawn = astroCalculator.getSunInfo().getTwilightEvening().toString();
         dawn = dawn.substring(dawn.indexOf(" "), dawn.lastIndexOf(" "));
 
-        String timeToSunset="";
+        String timeToSunset = "";
 
-        Calendar calendar = Calendar.getInstance();
-        String time =  dateFormat.format(calendar.getTime());
-
-       try {
+        try {
             Date timeOfSundown = dateFormat.parse(timeSunset);
             Date currentTime = dateFormat.parse(time);
 
@@ -164,7 +102,6 @@ public class SunFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-       setFields(timeSunrise,azimuthRise, timeSunset, azimuthSet, daybreak, dawn, timeToSunset);
-
+        sunFragment.setFields(timeSunrise,azimuthRise, timeSunset, azimuthSet, daybreak, dawn, timeToSunset);
     }
 }
