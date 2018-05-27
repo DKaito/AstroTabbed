@@ -10,9 +10,9 @@
     <string name="localisation">Lokalizacja</string>
     <string name="localisation_summ">Ustawienia Szerokości i Długości Geograficznej</string>
     <string name="longitude">Długość Geograficzna</string>
-    <string name="longitude_summ">Długość geograficzna (Longitude) bieżącej pozycji, ujemna dla Zachodu.</string>
+    <string name="longitude_summ">Długość geograficzna (Longitude) bieżącej pozycji, ujemna dla Zachodu. Zakres -180, 180.</string>
     <string name="latitude">Szerokość Geograficzna</string>
-    <string name="latitude_summ">Szerokość geograficzna (Latitude) bieżącej pozycji, ujemna dla Południa.</string>
+    <string name="latitude_summ">Szerokość geograficzna (Latitude) bieżącej pozycji, ujemna dla Południa. Zakres -90, 90.</string>
     <string name="refreshRate">Częstotliwość Odświeżania</string>
     <string name="refreshRate_summ">Interwał odświeżania informacji w minutach.</string>
     <string name="timeToSunset">Czas do zachodu</string>
@@ -22,4 +22,5 @@
     <string name="newMoon">Nów</string>
     <string name="fullMoon">Pełnia</string>
     <string name="moonPhase">Faza Księżyca</string>
+    <string name="moonAge">Wiek Księżyca</string>
 </resources>

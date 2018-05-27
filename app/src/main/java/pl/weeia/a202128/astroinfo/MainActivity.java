@@ -1,7 +1,9 @@
 package pl.weeia.a202128.astroinfo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -17,14 +19,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextClock;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements SunFragment.OnFragmentInteractionListener, MoonFragment.OnFragmentInteractionListener {
 
-    private int interval, currentItem;
-    //private TextClock textClock;
+    private int interval, orientation;
     private FloatingActionButton fab;
     private Runnable schedule;
     private Handler handler = new Handler();
@@ -36,25 +36,63 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        orientation = this.getResources().getConfiguration().orientation;
+
+        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        switch(screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                orientation+=2;
+                if(orientation == 4)
+                    setContentView(R.layout.activity_main_large_landscape);
+                else
+                    setContentView(R.layout.activity_main_large);
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                orientation+=2;
+                if(orientation == 4)
+                    setContentView(R.layout.activity_main_large_landscape);
+                else
+                    setContentView(R.layout.activity_main_large);
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                if(orientation == 2)
+                    setContentView(R.layout.activity_main_landscape);
+                else
+                    setContentView(R.layout.activity_main);
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                if(orientation == 2)
+                    setContentView(R.layout.activity_main_landscape);
+                else
+                    setContentView(R.layout.activity_main);
+                break;
+            default:
+                if(orientation == 2)
+                    setContentView(R.layout.activity_main_landscape);
+                else
+                    setContentView(R.layout.activity_main);
+                break;
+
+        }
 
         localisation = findViewById(R.id.localisation);
-       // textClock = findViewById(R.id.textClock);
 
-        fab = (FloatingActionButton) findViewById(R.id.refreshButton);
+        fab =  (FloatingActionButton) findViewById(R.id.refreshButton);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+   /*     fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 init();
             }
         });
-
-
+*/
     }
 
     public void init(){
 
+        int currentItem;
         if(mViewPager!=null)
             currentItem = mViewPager.getCurrentItem();
         else
@@ -66,34 +104,62 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        if(orientation==1||orientation==2) {
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+            SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+            mViewPager.setCurrentItem(currentItem);
+        }
+        else{
+          //  getSupportFragmentManager().beginTransaction().remove(sunFragment).commit();
+          //  getSupportFragmentManager().beginTransaction().remove(moonFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment,sunFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment2,moonFragment).commit();
+        }
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if(!(sharedPref.getString("refreshRate",null)==(null)) && !((sharedPref.getString("latitude", null)) == null && (sharedPref.getString("longitude", null)) == null)) {
             interval = Integer.parseInt(sharedPref.getString("refreshRate", null));
-            localisation.setText("Szerokość: " + sharedPref.getString("latitude", null) + " Długość: " + sharedPref.getString("longitude", null));
+
+            Double longitude = 0D;
+            Double latitude = 0D;
+
+            if(!sharedPref.getString("longitude", null).equals("")) {
+                longitude = Double.parseDouble(sharedPref.getString("longitude", null));
+                if (longitude > 180)
+                    longitude = 180D;
+                else if (longitude < -180)
+                    longitude = -180D;
+            }
+            if(!sharedPref.getString("latitude", null).equals("")) {
+                latitude = Double.parseDouble(sharedPref.getString("latitude", null));
+                if (latitude > 90)
+                    latitude = 90D;
+                else if (latitude < -90)
+                    latitude = -90D;
+            }
+            localisation.setText("Długość: " + longitude.toString() + " Szerokość: " +latitude.toString());
         }else {
             interval = 10;
-            localisation.setText("Szerokość: 0"+ " Długość: 0");
+            localisation.setText("Długość: 0" + " Szerokość: 0");
         }
 
-        mViewPager.setCurrentItem(currentItem);
+       // mViewPager.setCurrentItem(currentItem);
     }
 
 
     @Override
     public void onStart() {
-        init();
+        //init();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
         handler.postDelayed(schedule, 250);
         super.onStart();
     }
-
+/*
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -133,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-
+*/
     @Override
     public void onFragmentInteraction(Uri uri) {
     }

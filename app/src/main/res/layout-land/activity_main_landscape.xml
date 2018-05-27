@@ -22,7 +22,6 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/app_name">
 
@@ -80,8 +79,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_margin="8dp"
         app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@+id/container"
+        app:layout_anchorGravity="bottom|right"
         app:srcCompat="@android:drawable/stat_notify_sync" />
 
 </android.support.design.widget.CoordinatorLayout>

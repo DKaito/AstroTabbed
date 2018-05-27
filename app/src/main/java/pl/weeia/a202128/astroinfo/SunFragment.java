@@ -2,6 +2,7 @@ package pl.weeia.a202128.astroinfo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -44,8 +45,19 @@ public class SunFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_sun, container, false);
 
+        View view;
+
+        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        if(screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE || screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE)
+            view = inflater.inflate(R.layout.fragment_sun, container, false);
+        else {
+            if (getContext().getResources().getConfiguration().orientation == 1)
+                view = inflater.inflate(R.layout.fragment_sun, container, false);
+            else
+                view = inflater.inflate(R.layout.fragment_sun_landscape, container, false);
+        }
         timeSunrise = view.findViewById(R.id.timeSunrise);
         azimuthSunrise = view.findViewById(R.id.azymuthSunrise);
         timeSunset = view.findViewById(R.id.timeSunset);
@@ -115,15 +127,26 @@ public class SunFragment extends Fragment {
 
     public void refreshCalculations(Context context){
 
+        latitude = 0;
+        longitude = 0;
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
         if(!((sharedPref.getString("latitude", null)) == null && (sharedPref.getString("longitude", null)) == null)) {
-            latitude = Double.parseDouble(sharedPref.getString("latitude", null));
-            longitude = Double.parseDouble(sharedPref.getString("longitude", null));
-        }
-        else{
-            latitude = 0;
-            longitude = 0;
+            if(!sharedPref.getString("longitude", null).equals("")) {
+                longitude = Double.parseDouble(sharedPref.getString("longitude", null));
+                if (longitude > 180)
+                    longitude = 180D;
+                else if (longitude < -180)
+                    longitude = -180D;
+            }
+            if(!sharedPref.getString("latitude", null).equals("")) {
+                latitude = Double.parseDouble(sharedPref.getString("latitude", null));
+                if (latitude > 90)
+                    latitude = 90D;
+                else if (latitude < -90)
+                    latitude = -90D;
+            }
         }
 
         Calculate();

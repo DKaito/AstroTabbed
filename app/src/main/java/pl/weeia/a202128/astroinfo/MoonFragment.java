@@ -2,26 +2,19 @@ package pl.weeia.a202128.astroinfo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
-
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class MoonFragment extends Fragment {
@@ -32,8 +25,6 @@ public class MoonFragment extends Fragment {
     private AstroCalculator astroCalculator;
     private Calendar calendar = Calendar.getInstance();
     private double latitude, longitude;
-    private static DecimalFormat df2 = new DecimalFormat(".##");
-    private static DateFormat dateFormat = new SimpleDateFormat("kk:mm:ss", Locale.GERMAN);
 
     private TextView timeMoonrise, newMoon, timeMoonset, fullMoon, moonDay, moonPhase;
 
@@ -48,7 +39,20 @@ public class MoonFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_moon, container, false);
+        super.onCreate(savedInstanceState);
+
+        View view;
+
+        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        if(screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE || screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE)
+            view = inflater.inflate(R.layout.fragment_moon, container, false);
+        else {
+            if (getContext().getResources().getConfiguration().orientation == 1)
+                view = inflater.inflate(R.layout.fragment_moon, container, false);
+            else
+                view = inflater.inflate(R.layout.fragment_moon_landscape, container, false);
+        }
         timeMoonrise = view.findViewById(R.id.timeMoonrise);
         timeMoonset = view.findViewById(R.id.timeMoonset);
         newMoon = view.findViewById(R.id.newMoon);
@@ -116,23 +120,52 @@ public class MoonFragment extends Fragment {
 
     public void refreshCalculations(Context context){
 
+        latitude = 0;
+        longitude = 0;
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
         if(!((sharedPref.getString("latitude", null)) == null && (sharedPref.getString("longitude", null)) == null)) {
-            latitude = Double.parseDouble(sharedPref.getString("latitude", null));
-            longitude = Double.parseDouble(sharedPref.getString("longitude", null));
-        }
-        else{
-            latitude = 0;
-            longitude = 0;
+            if(!sharedPref.getString("longitude", null).equals("")) {
+                longitude = Double.parseDouble(sharedPref.getString("longitude", null));
+                  if(longitude > 180)
+                      longitude = 180D;
+                  else if(longitude < -180)
+                      longitude = 180D;
+            }
+            if(!sharedPref.getString("latitude", null).equals("")) {
+                latitude = Double.parseDouble(sharedPref.getString("latitude", null));
+                  if(latitude > 90)
+                      latitude = 90D;
+                  else if(latitude < -90)
+                      latitude = -90D;
+            }
         }
 
         Calculate();
 
-        String timeMoonrise = astroCalculator.getMoonInfo().getMoonrise().toString();
-        timeMoonrise = timeMoonrise.substring(timeMoonrise.indexOf(" "),timeMoonrise.lastIndexOf(" "));
-        String timeMoonset = astroCalculator.getMoonInfo().getMoonset().toString();
-        timeMoonset = timeMoonset.substring(timeMoonset.indexOf(" "),timeMoonset.lastIndexOf(" "));
+
+        String timeMoonrise;
+        String timeMoonset;
+
+        if(astroCalculator.getMoonInfo().getMoonrise()!=null) {
+            timeMoonrise = astroCalculator.getMoonInfo().getMoonrise().toString();
+            timeMoonrise = timeMoonrise.substring(timeMoonrise.indexOf(" "), timeMoonrise.lastIndexOf(" "));
+
+        }else{
+            timeMoonrise="NaN";
+
+        }
+
+        if(astroCalculator.getMoonInfo().getMoonset()!=null) {
+
+            timeMoonset = astroCalculator.getMoonInfo().getMoonset().toString();
+            timeMoonset = timeMoonset.substring(timeMoonset.indexOf(" "), timeMoonset.lastIndexOf(" "));
+        }else{
+
+            timeMoonset="NaN";
+        }
+
 
         String newMoon = astroCalculator.getMoonInfo().getNextNewMoon().toString();
         newMoon = newMoon.substring(0,newMoon.lastIndexOf(" "));
