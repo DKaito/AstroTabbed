@@ -19,18 +19,15 @@ import java.util.Locale;
 
 public class MoonFragment extends Fragment {
 
-
     private OnFragmentInteractionListener mListener;
     private AstroDateTime astroDateTime = new AstroDateTime();
     private AstroCalculator astroCalculator;
     private Calendar calendar = Calendar.getInstance();
     private double latitude, longitude;
-
     private TextView timeMoonrise, newMoon, timeMoonset, fullMoon, moonDay, moonPhase;
 
     public MoonFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,7 +102,6 @@ public class MoonFragment extends Fragment {
     }
 
     protected void Calculate(){
-
         astroDateTime.setYear(calendar.get(Calendar.YEAR));
         astroDateTime.setMonth(calendar.get(Calendar.MONTH)+1);
         astroDateTime.setDay(calendar.get(Calendar.DAY_OF_MONTH));
@@ -115,7 +111,6 @@ public class MoonFragment extends Fragment {
         astroDateTime.setTimezoneOffset(2);
         astroDateTime.setDaylightSaving(false);
         astroCalculator = new AstroCalculator(astroDateTime, new AstroCalculator.Location(latitude,longitude));
-
     }
 
     public void refreshCalculations(Context context){
@@ -144,7 +139,6 @@ public class MoonFragment extends Fragment {
 
         Calculate();
 
-
         String timeMoonrise;
         String timeMoonset;
 
@@ -166,7 +160,6 @@ public class MoonFragment extends Fragment {
             timeMoonset="NaN";
         }
 
-
         String newMoon = astroCalculator.getMoonInfo().getNextNewMoon().toString();
         newMoon = newMoon.substring(0,newMoon.lastIndexOf(" "));
         String fullMoon = astroCalculator.getMoonInfo().getNextFullMoon().toString();
@@ -176,6 +169,5 @@ public class MoonFragment extends Fragment {
         String dawn = String .format(Locale.GERMAN,"%.0f%%",astroCalculator.getMoonInfo().getIllumination()*100);
 
         setFields(timeMoonrise, timeMoonset, newMoon, fullMoon, synodicDay, dawn);
-
     }
 }

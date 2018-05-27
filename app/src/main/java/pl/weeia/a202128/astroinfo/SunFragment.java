@@ -21,9 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-
 public class SunFragment extends Fragment {
-
 
     private OnFragmentInteractionListener mListener;
     private AstroDateTime astroDateTime = new AstroDateTime();
@@ -85,7 +83,6 @@ public class SunFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
 
     @Override
@@ -101,7 +98,6 @@ public class SunFragment extends Fragment {
 
 
     public void setFields(String sunrise, String azimuthRise, String sunset, String azimuthSet, String daybreak, String dawn, String timeToSunset){
-
         this.timeSunrise.setText(sunrise);
         this.timeSunset.setText(sunset);
         this.azimuthSunrise.setText(azimuthRise);
@@ -122,7 +118,6 @@ public class SunFragment extends Fragment {
         astroDateTime.setTimezoneOffset(2);
         astroDateTime.setDaylightSaving(false);
         astroCalculator = new AstroCalculator(astroDateTime, new AstroCalculator.Location(latitude,longitude));
-
     }
 
     public void refreshCalculations(Context context){
@@ -188,6 +183,5 @@ public class SunFragment extends Fragment {
             e.printStackTrace();
         }
        setFields(timeSunrise,azimuthRise, timeSunset, azimuthSet, daybreak, dawn, timeToSunset);
-
     }
 }

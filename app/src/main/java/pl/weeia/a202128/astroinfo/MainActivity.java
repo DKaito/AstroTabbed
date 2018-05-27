@@ -1,6 +1,5 @@
 package pl.weeia.a202128.astroinfo;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -20,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements SunFragment.OnFragmentInteractionListener, MoonFragment.OnFragmentInteractionListener {
 
@@ -74,23 +72,11 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
                 else
                     setContentView(R.layout.activity_main);
                 break;
-
         }
 
         localisation = findViewById(R.id.localisation);
 
         fab =  (FloatingActionButton) findViewById(R.id.refreshButton);
-
- /*       schedule = new Runnable() {
-            @Override
-            public void run() {
-                init();
-                handler.postDelayed(this, interval*60*1000);
-            }
-        };
-
-        handler.postDelayed(schedule, 250);
-   */
     }
 
     public void init(){
@@ -114,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
             mViewPager = (ViewPager) findViewById(R.id.container);
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
-
             TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
             mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -122,12 +107,8 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
             mViewPager.setCurrentItem(currentItem);
         }
         else{
-
-          //  getSupportFragmentManager().beginTransaction().remove(sunFragment).commit();
-          //  getSupportFragmentManager().beginTransaction().remove(moonFragment).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment,sunFragment).commitAllowingStateLoss();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment2,moonFragment).commitAllowingStateLoss();
-
         }
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -173,16 +154,13 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
                 handler.postDelayed(schedule,interval*60*1000);
             }
         });
-
     }
-
 
     @Override
     public void onStart() {
         super.onStart();
 
         init();
-
         schedule = new Runnable() {
             @Override
             public void run() {
@@ -190,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
                 handler.postDelayed(this, interval*60*1000);
             }
         };
-
         handler.postDelayed(schedule, interval*60*1000);
     }
 
