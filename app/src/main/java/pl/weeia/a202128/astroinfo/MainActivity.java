@@ -81,13 +81,16 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
 
         fab =  (FloatingActionButton) findViewById(R.id.refreshButton);
 
-   /*     fab.setOnClickListener(new View.OnClickListener() {
+ /*       schedule = new Runnable() {
             @Override
-            public void onClick(View view) {
+            public void run() {
                 init();
+                handler.postDelayed(this, interval*60*1000);
             }
-        });
-*/
+        };
+
+        handler.postDelayed(schedule, 250);
+   */
     }
 
     public void init(){
@@ -119,10 +122,12 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
             mViewPager.setCurrentItem(currentItem);
         }
         else{
+
           //  getSupportFragmentManager().beginTransaction().remove(sunFragment).commit();
           //  getSupportFragmentManager().beginTransaction().remove(moonFragment).commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment,sunFragment).commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment2,moonFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment,sunFragment).commitAllowingStateLoss();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment2,moonFragment).commitAllowingStateLoss();
+
         }
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -153,14 +158,6 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
             localisation.setText("Długość: 0" + " Szerokość: 0");
         }
 
-       // mViewPager.setCurrentItem(currentItem);
-    }
-
-
-    @Override
-    public void onStart() {
-        //init();
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,6 +174,15 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
             }
         });
 
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        init();
+
         schedule = new Runnable() {
             @Override
             public void run() {
@@ -185,21 +191,15 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
             }
         };
 
-        handler.postDelayed(schedule, 250);
-        super.onStart();
-    }
-/*
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        handler.postDelayed(schedule, interval*60*1000);
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+    public void onStop() {
+        super.onStop();
+        handler.removeCallbacks(schedule);
     }
 
-*/
     @Override
     public void onFragmentInteraction(Uri uri) {
     }

@@ -58,33 +58,29 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/darker_gray"
-            tools:layout_editor_absoluteY="100dp">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
-                <fragment
-                    android:id="@+id/fragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+            </FrameLayout>
 
-                <fragment
-                    android:id="@+id/fragment2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-            </LinearLayout>
+            <FrameLayout
+                android:id="@+id/fragment2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-        </android.support.constraint.ConstraintLayout>
+            </FrameLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

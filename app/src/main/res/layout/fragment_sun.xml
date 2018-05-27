@@ -106,7 +106,8 @@
             android:freezesText="false"
             android:gravity="center"
             android:text="timeToSunset"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/azymuthLabelSunrise"
