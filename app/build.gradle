@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "pl.weeia.a202128.astroinfo"
+        applicationId "pl.weeia.a202128.astroweather"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1

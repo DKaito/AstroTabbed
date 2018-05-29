@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pl.weeia.a202128.astroinfo">
+    package="pl.weeia.a202128.astroweather">
 
     <application
         android:allowBackup="true"
@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--
         <activity
-            android:name=".MainActivity"
+            android:name=".AstroInfo"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,7 +21,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SettingsActivity" />
+        <activity
+            android:name=".AstroInfo"
+            android:label="@string/astro_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- <activity android:name=".MainActivity"></activity> -->
+        <activity
+            android:name=".AstroWeather"
+            android:label="@string/title_activity_astro_weather"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

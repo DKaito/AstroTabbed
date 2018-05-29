@@ -1,4 +1,4 @@
-package pl.weeia.a202128.astroinfo;
+package pl.weeia.a202128.astroweather;
 
 import android.content.Context;
 import android.content.SharedPreferences;

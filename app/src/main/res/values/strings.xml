@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">AstroInfo</string>
+    <string name="app_name">Astro-Weather</string>
+    <string name="astro_name">AstroInfo</string>
     <string name="tab_text_1">Sun Info</string>
     <string name="tab_text_2">Moon Info</string>
     <string name="wschod">Wschód</string>
@@ -23,4 +24,7 @@
     <string name="fullMoon">Pełnia</string>
     <string name="moonPhase">Faza Księżyca</string>
     <string name="moonAge">Wiek Księżyca</string>
+    <string name="astroInfoButton">AstroInfo</string>
+    <string name="astroWeatherButton">AstroWeather</string>
+    <string name="title_activity_astro_weather">AstroWeather</string>
 </resources>

@@ -1,4 +1,4 @@
-package pl.weeia.a202128.astroinfo;
+package pl.weeia.a202128.astroweather;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,7 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements SunFragment.OnFragmentInteractionListener, MoonFragment.OnFragmentInteractionListener {
+public class AstroInfo extends AppCompatActivity implements SunFragment.OnFragmentInteractionListener, MoonFragment.OnFragmentInteractionListener {
 
     private int interval, orientation;
     private FloatingActionButton fab;
@@ -43,34 +43,34 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
             case Configuration.SCREENLAYOUT_SIZE_XLARGE:
                 orientation+=2;
                 if(orientation == 4)
-                    setContentView(R.layout.activity_main_large_landscape);
+                    setContentView(R.layout.astro_info_large_landscape);
                 else
-                    setContentView(R.layout.activity_main_large);
+                    setContentView(R.layout.astro_info_large);
                 break;
             case Configuration.SCREENLAYOUT_SIZE_LARGE:
                 orientation+=2;
                 if(orientation == 4)
-                    setContentView(R.layout.activity_main_large_landscape);
+                    setContentView(R.layout.astro_info_large_landscape);
                 else
-                    setContentView(R.layout.activity_main_large);
+                    setContentView(R.layout.astro_info_large);
                 break;
             case Configuration.SCREENLAYOUT_SIZE_NORMAL:
                 if(orientation == 2)
-                    setContentView(R.layout.activity_main_landscape);
+                    setContentView(R.layout.astro_info_landscape);
                 else
-                    setContentView(R.layout.activity_main);
+                    setContentView(R.layout.astro_info);
                 break;
             case Configuration.SCREENLAYOUT_SIZE_SMALL:
                 if(orientation == 2)
-                    setContentView(R.layout.activity_main_landscape);
+                    setContentView(R.layout.astro_info_landscape);
                 else
-                    setContentView(R.layout.activity_main);
+                    setContentView(R.layout.astro_info);
                 break;
             default:
                 if(orientation == 2)
-                    setContentView(R.layout.activity_main_landscape);
+                    setContentView(R.layout.astro_info_landscape);
                 else
-                    setContentView(R.layout.activity_main);
+                    setContentView(R.layout.astro_info);
                 break;
         }
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
         fab =  (FloatingActionButton) findViewById(R.id.refreshButton);
     }
 
-    public void init(){
+    public void recreateFragments(){
 
         int currentItem;
         if(mViewPager!=null)
@@ -142,12 +142,12 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                init();
+                recreateFragments();
                 handler.removeCallbacks(schedule);
                 schedule = new Runnable() {
                     @Override
                     public void run() {
-                        init();
+                        recreateFragments();
                         handler.postDelayed(this, interval*60*1000);
                     }
                 };
@@ -160,11 +160,11 @@ public class MainActivity extends AppCompatActivity implements SunFragment.OnFra
     public void onStart() {
         super.onStart();
 
-        init();
+        recreateFragments();
         schedule = new Runnable() {
             @Override
             public void run() {
-                init();
+                recreateFragments();
                 handler.postDelayed(this, interval*60*1000);
             }
         };
